@@ -2,15 +2,22 @@
 
 Genetics Modal Assignments
 
-1. Prepare the refference fasta and its index file
+1. Prepare the reference fasta and its index file
 
-The first step is to prepare the 
+   The first step is to prepare the reference file. Here we use BWA to map the reads and GATK to call SNV variatns. The index file should be 
 
-1.1 BWA index building
-   
-1.2 GATK index building
++ BWA index building
 
 ```{sh}
+   bwa index test_data/ref/NC_016845.fa
+```
+
++ GATK index building
+
+   The [GATK index building](https://gatkforums.broadinstitute.org/gatk/discussion/1601/how-can-i-prepare-a-fasta-file-to-use-as-reference) is refer to the GATK forums.
+   
+```{sh}
+java -jar picard.jar CreateSequenceDictionary R=test_data/ref/NC_016845.fa O=test_data/ref/NC_016845.dict 
 samtools faidx test_data/ref/NC_016845.fa
 ```
 

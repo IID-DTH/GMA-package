@@ -4,7 +4,9 @@ Genetics Modal Assignments
 
 1. Prepare the reference fasta and its index file
 
-   The first step is to prepare the reference file. Here we use BWA to map the reads and GATK to call SNV variatns. The index file should be 
+   The first step is to prepare the reference file. Here we use BWA to map the reads and GATK to call SNV variatns. The index file should be prepared with BWA and picard programme. 
+   Moreover, the GMA package need samtools, bedtools, GATK, Picard and Annovar tools to be pre-installed.
+   
 
 + BWA index building
 
@@ -33,3 +35,8 @@ samtools faidx test_data/ref/NC_016845.fa
 ./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type dep -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt_gq
 ./SV_corrected_SNP_calling.sh test_data/bam_result/test.sorted.mkdup 10 test_data/ref/NC_016845.fa
 ```
+
+4. CNV and SNV annotation
+
+
+5. CNV and SNV comparation

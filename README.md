@@ -1,11 +1,14 @@
 # GMA-package
+
 Genetics Modal Assignments
 
-1.Prepare the fasta and its index file
+1. Prepare the refference fasta and its index file
 
-   BWA index building
+The first step is to prepare the 
+
+1.1 BWA index building
    
-2.GATK index building
+1.2 GATK index building
 
 ```{sh}
 samtools faidx test_data/ref/NC_016845.fa

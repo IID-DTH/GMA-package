@@ -16,7 +16,7 @@ Genetics Modal Assignments
 
 + GATK index building
 
-   The [GATK index building](https://gatkforums.broadinstitute.org/gatk/discussion/1601/how-can-i-prepare-a-fasta-file-to-use-as-reference) is refer to the GATK forums.
+   The GATK index building is refer to the GATK forums (https://gatkforums.broadinstitute.org/gatk/discussion/1601/how-can-i-prepare-a-fasta-file-to-use-as-reference). 
  
 ```{sh}
 java -jar AddionalTools/picard.jar CreateSequenceDictionary R=test_data/ref/NC_016845.fa O=test_data/ref/NC_016845.dict 
@@ -24,6 +24,10 @@ samtools faidx test_data/ref/NC_016845.fa
 ```
 
 + Genome file for bedtools
+
+```{sh}
+cut -f 1-2 test_data/ref/NC_016845.fa.fai >test_data/ref/NC_016845.genome
+```
 
 + Annotation tools for Annovar
 ```{sh}
@@ -36,6 +40,8 @@ cd ../../../
 
 2. Fastq mapping and bam processing
 
+The input fastq was mapped to the reference genome and 
+
 ```{sh}
 ./bam_Processing.sh test_data/ref/NC_016845.fa test_data/bam_result/test test_data/raw_fastq/test.1.fq test_data/raw_fastq/test.2.fq
 ```
@@ -44,7 +50,11 @@ cd ../../../
 
 ```{sh}
 ./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type bga -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt
+```
+```{sh}
 ./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type dep -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt_gq
+```
+```{sh}
 ./SV_corrected_SNP_calling.sh test_data/bam_result/test.sorted.mkdup 10 test_data/ref/NC_016845.fa
 ```
 
@@ -61,11 +71,9 @@ The SNV annotation is based on Annovar programme. The Annovar programe provide t
 5. CNV and SNV comparation
 
 We compare the CNV/SNV files from two population with Fisher Exact test with R programme. 
-The compare could take the CNV dep result as input to calculate the 
+The compare could also take the CNV dep result as input to calculate the undetect positions. 
 
 ```{sh}
-./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type dep -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt
-
 ./compare_2_table.pl -f1 <(grep -v "," test1.table) -f2 <(grep -v "," test2.table) -p1 10 -p2 10 -g1 test1.gt_gq  -g2 test2.gt_gq >test1_2.compare 
 Rscript fisher_result.r test1_2.compare
 ```

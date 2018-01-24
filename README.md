@@ -5,7 +5,7 @@ Genetics Modal Assignments
 1. Prepare the reference fasta and its index file
 
    The first step is to prepare the reference file. Here we use BWA to map the reads and GATK to call SNV variatns. The index file should be prepared with BWA and picard programme. 
-   Moreover, the GMA package need samtools, bedtools, GATK, Picard and Annovar tools to be pre-installed.
+   Moreover, the GMA package need samtools, bedtools, GATK, Picard and Annovar tools to be pre-installed. These tools were include in the AddionalTools dictionary. 
    
 
 + BWA index building
@@ -43,17 +43,29 @@ cd ../../../
 3. CNV and SNV detection
 
 ```{sh}
+./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type bga -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt
 ./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type dep -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt_gq
 ./SV_corrected_SNP_calling.sh test_data/bam_result/test.sorted.mkdup 10 test_data/ref/NC_016845.fa
 ```
 
-4. CNV and SNV annotation
+
+
+4. SNV annotation
 
 The SNV annotation is based on Annovar programme. The Annovar programe provide tools for personal gene definition databases ( http://annovar.openbioinformatics.org/en/latest/user-guide/gene/#create-your-own-gene-definition-databases-for-non-human-species).
 
 ```{sh}
-
 ./AddionalTools/annovar/annotate_variation.pl test.avinput ../AddionalTools/annovar/kpndb/ -buildver NC_016845
 ```
 
 5. CNV and SNV comparation
+
+We compare the CNV/SNV files from two population with Fisher Exact test with R programme. 
+The compare could take the CNV dep result as input to calculate the 
+
+```{sh}
+./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type dep -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt
+
+./compare_2_table.pl -f1 <(grep -v "," test1.table) -f2 <(grep -v "," test2.table) -p1 10 -p2 10 -g1 test1.gt_gq  -g2 test2.gt_gq >test1_2.compare 
+Rscript fisher_result.r test1_2.compare
+```

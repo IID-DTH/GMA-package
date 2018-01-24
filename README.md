@@ -17,10 +17,21 @@ Genetics Modal Assignments
 + GATK index building
 
    The [GATK index building](https://gatkforums.broadinstitute.org/gatk/discussion/1601/how-can-i-prepare-a-fasta-file-to-use-as-reference) is refer to the GATK forums.
-   
+ 
 ```{sh}
-java -jar picard.jar CreateSequenceDictionary R=test_data/ref/NC_016845.fa O=test_data/ref/NC_016845.dict 
+java -jar AddionalTools/picard.jar CreateSequenceDictionary R=test_data/ref/NC_016845.fa O=test_data/ref/NC_016845.dict 
 samtools faidx test_data/ref/NC_016845.fa
+```
+
++ Genome file for bedtools
+
++ Annotation tools for Annovar
+```{sh}
+mkdir AddionalTools/annovar/kpndb/
+cd AddionalTools/annovar/kpndb/
+../retrieve_seq_from_fasta.pl -format refGene -seqdir ./ NC_016845_refGene.txt
+mv NC_016845_refGene.txt.fa NC_016845_refGeneMrna.fa
+cd ../../../
 ```
 
 2. Fastq mapping and bam processing
@@ -38,5 +49,11 @@ samtools faidx test_data/ref/NC_016845.fa
 
 4. CNV and SNV annotation
 
+The SNV annotation is based on Annovar programme. The Annovar programe provide tools for personal gene definition databases ( http://annovar.openbioinformatics.org/en/latest/user-guide/gene/#create-your-own-gene-definition-databases-for-non-human-species).
+
+```{sh}
+
+./AddionalTools/annovar/annotate_variation.pl test.avinput ../AddionalTools/annovar/kpndb/ -buildver NC_016845
+```
 
 5. CNV and SNV comparation

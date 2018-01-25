@@ -51,8 +51,7 @@ cut -f 1-2 test_data/ref/NC_016845.fa.fai >test_data/ref/NC_016845.genome
 mkdir AddionalTools/annovar/kpndb/
 cd AddionalTools/annovar/kpndb/
 ../retrieve_seq_from_fasta.pl -format refGene -seqdir ./ NC_016845_refGene.txt
-mv NC_016845_refGene.txt.fa NC_016845_refGeneMrna.fa
-cd ../../../
+mv NC_016845_refGene.txt.fa NC_016845_refGeneMrna.facd ../../../
 ```
 
 2. Fastq mapping and bam processing
@@ -89,7 +88,7 @@ The SNV annotation use Annovar programme with personal made annotataion files.
 
 ```{sh}
  awk '{print $1"\t"$2"\t"$2"\t"$3"\t"$4}'  test_data/geno_result/test.corr.table |sed '1d' >test_data/geno_result/test.corr.avinput
-./AddionalTools/annovar/annotate_variation.pl test_data/geno_result/test.corr.avinput ../AddionalTools/annovar/kpndb/ -buildver NC_016845
+./AddionalTools/annovar/annotate_variation.pl test_data/geno_result/test.corr.avinput ./AddionalTools/annovar/kpndb/ -buildver NC_016845
 ```
 
 5. CNV and SNV comparation
@@ -98,6 +97,6 @@ We compare the CNV/SNV files from two population with Fisher Exact test with R p
 The compare could also take the CNV dep result as input to calculate the undetect positions. 
 
 ```{sh}
-./compare_2_table.pl -f1 <(grep -v "," test_data/geno_result/test1.table) -f2 <(grep -v "," geno_data/final_result/test2.table) -p1 10 -p2 10 -g1 test_data/geno_result/test1.gt_gq  -g2 test_data/geno_result/test2.gt_gq >test_data/geno_result/test1_2.compare 
+./compare_2_table.pl -f1  test_data/geno_result/test1.table -f2  test_data/geno_result/test2.table -p1 10 -p2 10 -g1 test_data/geno_result/test1.gt_gq  -g2 test_data/geno_result/test2.gt_gq >test_data/geno_result/test1_2.compare 
 Rscript fisher_result.r test_data/geno_result/test1_2.compare
 ```

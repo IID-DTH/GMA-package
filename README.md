@@ -56,25 +56,24 @@ cd ../../../
    The CNV detection is based on the GMA bayesian model. There are two mode in the package. Th "dep" mode output is the ploidy result in every position. 
 
 ```{sh}
-./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type bga -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt
-```
-The "bga" mode result report ploidy result in BedGraph format and as the input for the SNV detection.
-
-```{sh}
 ./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type dep -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt_gq
 ```
 
-The SNV detection is 
+The "bga" mode result report ploidy result in BedGraph format and as the input for the SNV detection.
 
 ```{sh}
-./SV_corrected_SNP_calling.sh test_data/bam_result/test.sorted.mkdup 10 test_data/ref/NC_016845.fa
+./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type bga -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt
 ```
 
+The SNV detection is based on GATK UnifiedGenotper as SNV caller, while taking the BedGraph ploidy result into consideration.  
 
+```{sh}
+./SV_corrected_SNP_calling.sh test_data/bam_result/test.sorted.mkdup.bam test_data/bam_result/test test_data/bam_result/test.sorted.mkdup.gt 10 test_data/ref/NC_016845.fa
+```
 
 4. SNV annotation
 
-
+The SNV annotation use Annovar programme with personal made annotataion files. 
 
 ```{sh}
 ./AddionalTools/annovar/annotate_variation.pl test.avinput ../AddionalTools/annovar/kpndb/ -buildver NC_016845
@@ -86,6 +85,6 @@ We compare the CNV/SNV files from two population with Fisher Exact test with R p
 The compare could also take the CNV dep result as input to calculate the undetect positions. 
 
 ```{sh}
-./compare_2_table.pl -f1 <(grep -v "," test1.table) -f2 <(grep -v "," test2.table) -p1 10 -p2 10 -g1 test1.gt_gq  -g2 test2.gt_gq >test1_2.compare 
-Rscript fisher_result.r test1_2.compare
+./compare_2_table.pl -f1 <(grep -v "," test_data/test1.table) -f2 <(grep -v "," test_data/test2.table) -p1 10 -p2 10 -g1 test_data/test1.gt_gq  -g2 test_data/test2.gt_gq >test_data/test1_2.compare 
+Rscript fisher_result.r test_data/test1_2.compare
 ```

@@ -59,7 +59,7 @@ mv NC_016845_refGene.txt.fa NC_016845_refGeneMrna.facd ../../../
    The input fastq was mapped to the reference genome and use Picard to sort bam and remove duplicate reads.
 
 ```{sh}
-./bam_Processing.sh test_data/ref/NC_016845.fa test_data/bam_result/test test_data/raw_fastq/test.1.fq test_data/raw_fastq/test.2.fq
+./bam_Processing.sh test_data/ref/NC_016845.fa test_data/bam_result/test test_data/raw_fastq/test.1.fq.gz test_data/raw_fastq/test.2.fq.gz
 ```
 
 3. CNV and SNV detection

@@ -8,11 +8,16 @@ Genetics Modal Assignments
    Moreover, the GMA package need samtools, bedtools, GATK, Picard and Annovar tools to be pre-installed. These tools could be add to  AddionalTools dictionary. 
 
 Download URLs
-[samtools] (https://github.com/samtools/samtools)
-[bedtools] (https://github.com/arq5x/bedtools2/blob/master/docs/index.rst)
-[GATK] (https://software.broadinstitute.org/gatk/download/)
-[Picard] (http://broadinstitute.github.io/picard/)
-[Annovar] (http://annovar.openbioinformatics.org/en/latest/user-guide/download/)
+
+[samtools](https://github.com/samtools/samtools)
+
+[bedtools](https://github.com/arq5x/bedtools2/blob/master/docs/index.rst)
+
+[GATK](https://software.broadinstitute.org/gatk/download/)
+
+[Picard](http://broadinstitute.github.io/picard/)
+
+[Annovar](http://annovar.openbioinformatics.org/en/latest/user-guide/download/)
 
 
 + BWA index building

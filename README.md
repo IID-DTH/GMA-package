@@ -25,11 +25,16 @@ samtools faidx test_data/ref/NC_016845.fa
 
 + Genome file for bedtools
 
+   The genome file is as input for bedtools to calculate the depth in every position.
+
 ```{sh}
 cut -f 1-2 test_data/ref/NC_016845.fa.fai >test_data/ref/NC_016845.genome
 ```
 
-+ Annotation tools for Annovar
++ Annotation file for Annovar
+
+   The SNV annotation is based on Annovar programme. The Annovar programe provide tools for personal gene definition databases ( http://annovar.openbioinformatics.org/en/latest/user-guide/gene/#create-your-own-gene-definition-databases-for-non-human-species).
+
 ```{sh}
 mkdir AddionalTools/annovar/kpndb/
 cd AddionalTools/annovar/kpndb/
@@ -40,7 +45,7 @@ cd ../../../
 
 2. Fastq mapping and bam processing
 
-The input fastq was mapped to the reference genome and 
+   The input fastq was mapped to the reference genome and use Picard to sort bam and remove duplicate reads.
 
 ```{sh}
 ./bam_Processing.sh test_data/ref/NC_016845.fa test_data/bam_result/test test_data/raw_fastq/test.1.fq test_data/raw_fastq/test.2.fq
@@ -48,12 +53,19 @@ The input fastq was mapped to the reference genome and
 
 3. CNV and SNV detection
 
+   The CNV detection is based on the GMA bayesian model. There are two mode in the package. Th "dep" mode output is the ploidy result in every position. 
+
 ```{sh}
 ./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type bga -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt
 ```
+The "bga" mode result report ploidy result in BedGraph format and as the input for the SNV detection.
+
 ```{sh}
 ./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type dep -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt_gq
 ```
+
+The SNV detection is 
+
 ```{sh}
 ./SV_corrected_SNP_calling.sh test_data/bam_result/test.sorted.mkdup 10 test_data/ref/NC_016845.fa
 ```
@@ -62,7 +74,7 @@ The input fastq was mapped to the reference genome and
 
 4. SNV annotation
 
-The SNV annotation is based on Annovar programme. The Annovar programe provide tools for personal gene definition databases ( http://annovar.openbioinformatics.org/en/latest/user-guide/gene/#create-your-own-gene-definition-databases-for-non-human-species).
+
 
 ```{sh}
 ./AddionalTools/annovar/annotate_variation.pl test.avinput ../AddionalTools/annovar/kpndb/ -buildver NC_016845

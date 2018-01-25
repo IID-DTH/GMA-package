@@ -65,7 +65,7 @@ cd ../../../
 
 3. CNV and SNV detection
 
-   The CNV detection is based on the GMA bayesian model. There are two mode in the package. Th "dep" mode output is the ploidy result in every position. 
+   The CNV detection is based on the GMA bayesian model. There are two mode in the package. Th "dep" mode output is the ploidy result in every position. The result maybe used in SNV compare mode.
 
 ```{sh}
 ./SV_identify_pool_gp.pl -bam test_data/bam_result/test.sorted.mkdup -genome test_data/ref/NC_016845.genome -type dep -ploidy 10 >test_data/bam_result/test.sorted.mkdup.gt_gq
@@ -88,7 +88,8 @@ The SNV detection is based on GATK UnifiedGenotper as SNV caller, while taking t
 The SNV annotation use Annovar programme with personal made annotataion files. 
 
 ```{sh}
-./AddionalTools/annovar/annotate_variation.pl test.avinput ../AddionalTools/annovar/kpndb/ -buildver NC_016845
+ awk '{print $1"\t"$2"\t"$2"\t"$3"\t"$4}'  test_data/geno_result/test.corr.table |sed '1d' >test_data/geno_result/test.corr.avinput
+./AddionalTools/annovar/annotate_variation.pl test_data/geno_result/test.corr.avinput ../AddionalTools/annovar/kpndb/ -buildver NC_016845
 ```
 
 5. CNV and SNV comparation
@@ -97,6 +98,6 @@ We compare the CNV/SNV files from two population with Fisher Exact test with R p
 The compare could also take the CNV dep result as input to calculate the undetect positions. 
 
 ```{sh}
-./compare_2_table.pl -f1 <(grep -v "," test_data/test1.table) -f2 <(grep -v "," test_data/test2.table) -p1 10 -p2 10 -g1 test_data/test1.gt_gq  -g2 test_data/test2.gt_gq >test_data/test1_2.compare 
-Rscript fisher_result.r test_data/test1_2.compare
+./compare_2_table.pl -f1 <(grep -v "," test_data/geno_result/test1.table) -f2 <(grep -v "," geno_data/final_result/test2.table) -p1 10 -p2 10 -g1 test_data/geno_result/test1.gt_gq  -g2 test_data/geno_result/test2.gt_gq >test_data/geno_result/test1_2.compare 
+Rscript fisher_result.r test_data/geno_result/test1_2.compare
 ```

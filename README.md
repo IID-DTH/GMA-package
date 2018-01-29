@@ -4,12 +4,12 @@ Genetics Modal Assignments
 
 1. Prepare the reference fasta and its index file
 
-   The first step is to prepare the reference file. Here we use BWA to map the reads and GATK to call SNV variatns. The index file should be prepared with BWA and picard programme. 
-   Moreover, the GMA package need samtools, bedtools, GATK, Picard and Annovar tools to be pre-installed. These tools could be add to  AddionalTools dictionary. 
+   The first step is to prepare the reference file. Here we use BWA to map the reads and GATK to call SNV variatns. The index file should be prepared with BWA and Picard programme. 
+   Moreover, the GMA package need SAMtools, bedtools, GATK, Picard and Annovar tools to be pre-installed. These tools could be add to  AddionalTools dictionary. 
 
 Download URLs
 
-[samtools](https://github.com/samtools/samtools)
+[SAMtools](https://github.com/samtools/samtools)
 
 [bedtools](https://github.com/arq5x/bedtools2/blob/master/docs/index.rst)
 
@@ -17,7 +17,7 @@ Download URLs
 
 [Picard](http://broadinstitute.github.io/picard/)
 
-[Annovar](http://annovar.openbioinformatics.org/en/latest/user-guide/download/)
+[ANNOVAR](http://annovar.openbioinformatics.org/en/latest/user-guide/download/)
 
 
 + BWA index building
@@ -84,7 +84,7 @@ The SNV detection is based on GATK UnifiedGenotper as SNV caller, while taking t
 
 4. SNV annotation
 
-The SNV annotation use Annovar programme with personal made annotataion files. 
+The SNV annotation use ANNOVAR programme with personal made annotataion files. 
 
 ```{sh}
  awk '{print $1"\t"$2"\t"$2"\t"$3"\t"$4}'  test_data/geno_result/test.corr.table |sed '1d' >test_data/geno_result/test.corr.avinput

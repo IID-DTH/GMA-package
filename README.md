@@ -94,9 +94,16 @@ The SNV annotation use ANNOVAR programme with personal made annotataion files.
 5. CNV and SNV comparation
 
 We compare the CNV/SNV files from two population with Fisher Exact test with R programme. 
-The compare could also take the CNV dep result as input to calculate the undetect positions. 
+
+```{sh}
+./compare_2_table.pl -f1  test1.table -f2  test2.table -p1 10 -p2 10 >test1_2.compare 
+Rscript fisher_result.r test_data/geno_result/test1_2.compare
+```
+
+The compare could also take the CNV dep result as input to calculate the undetect positions.
 
 ```{sh}
 ./compare_2_table.pl -f1  test1.table -f2  test2.table -p1 10 -p2 10 -g1 test1.gt_gq  -g2 test2.gt_gq >test1_2.compare 
 Rscript fisher_result.r test_data/geno_result/test1_2.compare
 ```
+

@@ -57,7 +57,7 @@ mv NC_016845_refGene.txt.fa NC_016845_refGeneMrna.facd ../../../
 
 2. Fastq mapping and bam processing
 
-   The input fastq was mapped to the reference genome using BWA mem with default parameters. We filtered the unmapped reads, low quality reads and multiple mapping reads. Thw low quality reads were defined as reads that mapping quality lower than 30. The multiple mapping reads were deifined as reads that the difference of Phred score between best alignment and the secondary aligment more than 10. Then we use Picard to sort bam and remove duplicate reads. This process could be modified in your particular application.
+   The input fastq was mapped to the reference genome using BWA mem programme with default parameters. We filtered the unmapped reads, low quality reads and multiple mapping reads. The low quality reads were defined as reads that mapping quality lower than 30. The multiple mapping reads were defined as reads that the difference of Phred score between best alignment and the secondary alignment more than 10. Then we use Picard to sort bam and remove duplicate reads. This process could be modified in your particular application.
 
 ```{sh}
 bwa.0.7 mem NC_016845.fa test.1.fq.gz test.2.fq.gz -R '@RG\tID:Pool\tSM:test\tPL:illumina\tLB:pool\tPU:test'|samtools view -Sb - >bam_result/test.bam

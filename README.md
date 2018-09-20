@@ -1,3 +1,5 @@
+
+
 # GMA-package
 
 Genetics Modal Assignments
@@ -38,7 +40,6 @@ samtools faidx NC_016845.fa
 + Genome file for bedtools
 
    The genome file is as input for bedtools to calculate the depth in every position.
-
 ```{sh}
 cut -f 1-2 NC_016845.fa.fai >NC_016845.genome
 ```
@@ -56,7 +57,16 @@ mv NC_016845_refGene.txt.fa NC_016845_refGeneMrna.facd ../../../
 
 2. Fastq mapping and bam processing
 
-   The input fastq was mapped to the reference genome and use Picard to sort bam and remove duplicate reads.
+   The input fastq was mapped to the reference genome using BWA mem with default parameters. We filtered the unmapped reads, low quality reads and multiple mapping reads. Thw low quality reads were defined as reads that mapping quality lower than 30. The multiple mapping reads were deifined as reads that the difference of Phred score between best alignment and the secondary aligment more than 10. Then we use Picard to sort bam and remove duplicate reads. This process could be modified in your particular application.
+
+```{sh}
+bwa.0.7 mem NC_016845.fa test.1.fq.gz test.2.fq.gz -R '@RG\tID:Pool\tSM:test\tPL:illumina\tLB:pool\tPU:test'|samtools view -Sb - >bam_result/test.bam
+samtools view -F 4 -q 30 -h  bam_result/test.bam | perl -ne 'print if(/^@/||(/AS:i:(\d+)\tXS:i:(\d+)/&&($1-$2)>10))'|grep -v "XA:Z\|SA:Z" |samtools view -Sb - >bam_result/test.uniq.bam
+java -jar AddionalTools/picard.jar  SortSam  I=bam_result/test.uniq.bam O=bam_result/test.sorted.bam  SORT_ORDER=coordinate
+java -jar AddionalTools/picard.jar MarkDuplicates I=bam_result/test.sorted.bam O=bam_result/test.soted.mkdup.bam REMOVE_DUPLICATES=T  M=bam_result/test.marked_dup.txt
+```
+
+For simply using our default parameters, you could use the bam_Processing.sh programme.
 
 ```{sh}
 ./bam_Processing.sh NC_016845.fa bam_result/test test.1.fq.gz test.2.fq.gz

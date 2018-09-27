@@ -1,13 +1,13 @@
 
 
-# GMA-package
+# GPA-package
 
-Genetics Modal Assignments
+Genetics Polymorphisms Assignments
 
 1. Prepare the reference fasta and its index file
 
    The first step is to prepare the reference file. Here we use BWA to map the reads and GATK to call SNV variatns. The index file should be prepared with BWA and Picard programme. 
-   Moreover, the GMA package need SAMtools, bedtools, GATK, Picard and Annovar tools to be pre-installed. These tools could be add to  AddionalTools dictionary. 
+   Moreover, the GPA package need SAMtools, bedtools, GATK, Picard and Annovar tools to be pre-installed. These tools could be add to  AddionalTools dictionary. 
 
 Download URLs
 

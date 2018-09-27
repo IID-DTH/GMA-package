@@ -46,8 +46,7 @@ cut -f 1-2 NC_016845.fa.fai >NC_016845.genome
 
 + Annotation file for Annovar
 
-   The SNV annotation is based on Annovar programme. The Annovar programe provide tools for personal gene definition databases ( http://annovar.openbioinformatics.org/en/latest/user-guide/gene/#create-your-own-gene-definition-databases-for-non-human-species).
-
+   The SNV annotation is based on Annovar programme. The Annovar programe provide tools for personal gene definition databases ( http://annovar.openbioinformatics.org/en/latest/user-guide/gene/#create-your-own-gene-definition-databases-for-non-human-species).P
 ```{sh}
 mkdir YOUR_ANNOVAR_PATHWAY/annovar/kpndb/
 cd YOUR_ANNOVAR_PATHWAY/annovar/kpndb/
@@ -74,7 +73,7 @@ For simply using our default parameters, you could use the bam_Processing.sh pro
 
 3. CNV and SNV detection
 
-   The CNV detection is based on the GMA bayesian model. There are two mode in the package. Th "dep" mode output is the ploidy result in every position. The result maybe used in SNV compare mode.
+   The CNV detection is based on the GPA bayesian model. There are two mode in the package. Th "dep" mode output is the ploidy result in every position. The result maybe used in SNV compare mode.
 
 ```{sh}
 ./SV_identify_pool_gp.pl -bam bam_result/test.sorted.mkdup -genome NC_016845.genome -type dep -ploidy 3 >bam_result/test.sorted.mkdup.gt_gq
